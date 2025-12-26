@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cattle Breed Classifier</title>
+    <style>
+        body {
+        background-image: url("{{ url_for('static', filename='111.jpg') }}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        font-family: 'Arial', sans-serif;
+        color: white;
+        text-align: center;
+        padding-top: 50px;
+    }
+
+        h1 {
+            background-color: rgba(0,0,0,0.6);
+            display: inline-block;
+            padding: 15px 25px;
+            border-radius: 12px;
+        }
+        .upload-box {
+            background-color: rgba(0,0,0,0.6);
+            padding: 30px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 30px;
+        }
+        input[type="file"] {
+            margin: 10px;
+            padding: 8px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            padding: 10px 20px;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        img {
+            margin-top: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+        .result {
+            background-color: rgba(0, 0, 0, 0.7);
+            display: inline-block;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐄 Cattle Breed Classifier</h1>
+
+    <div class="upload-box">
+        <form action="/predict" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" accept="image/*" required><br>
+            <input type="submit" value="Upload & Predict">
+        </form>
+    </div>
+
+    {% if image_path %}
+        <div>
+            <img src="{{ image_path }}" alt="Uploaded Image">
+        </div>
+        <div class="result">
+            <h2>✅ Predicted: {{ breed }}</h2>
+            <p>📊 Confidence: {{ '%.2f'|format(confidence) }}%</p>
+        </div>
+    {% elif error %}
+        <div class="result" style="color: red;">{{ error }}</div>
+    {% endif %}
+</body>
+</html>
